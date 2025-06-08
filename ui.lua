@@ -370,12 +370,12 @@ function module:CreateWindow(Name: string, Animation: boolean | nil, AnimationIn
 		Title.TextXAlignment = Enum.TextXAlignment.Left
 
 		local OnTabButtonClick = Clickable.MouseButton1Click:Connect(function()
-			for _, v in pairs(tabs:GetChildren()) do
+			for _, v in pairs(TabsHolder:GetChildren()) do
 				if v:IsA("Frame") then
 					v.Visible =false
 				end
 			end
-			for _,v in pairs(script.Parent.Parent:GetChildren()) do
+			for _,v in pairs(TabButtonHolder:GetChildren()) do
 				if v.Name == "Clickable" and v:IsA("TextButton") then
 					v:FindFirstChild("Title").TextColor3 = TabUnselected
 				end
