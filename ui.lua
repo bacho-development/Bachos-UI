@@ -1,9 +1,40 @@
 local module = {}
 module.__index = module
+
+-- Variables -- 
+local CheckboxOn = "rbxassetid://104734605967860"
 local ConfigurationExtension = ".blcfg"
 
-local CheckboxOn = "rbxassetid://104734605967860"
+-- Services --
+local Players = game:GetService('Players')
+local Player = Players.LocalPlayer
 
+-- Init gui settings --
+local GuiSettings = {
+	["WindowParent"] = Player:FindFirstChildWhichIsA('PlayerGui');
+}
+local UnknownParameters, Handled = "", 0
+for i, v in pairs(_G) do
+	Handled += 1
+	if GuiSettings[i] then
+		GuiSettings[i] = v
+	else
+		if UnknownParameters ~= "" then
+			if Handled ~= #_G then
+				UnknownParameters = UnknownParameters..tostring(i).." = "..tostring(v).." | "
+			else
+				UnknownParameters = UnknownParameters..tostring(i).." = "..tostring(v)
+			end
+		else
+			UnknownParameters = tostring(i).." = "..tostring(v).." | "
+		end
+	end
+end
+if UnknownParameters ~= "" then
+	warn("The script got unknown parameters.\n\n"..UnknownParameters)
+end
+
+-- Create window --
 function module:CreateWindow(Name: string, Animation: boolean | nil, AnimationInfo: {any} | nil, SaveConfig: boolean | nil, ConfigInfo: {any} | nil, Debug: boolean | nil)
 	-- Load configuration --
 	local ConfigFilename, ConfigFilePath, Config
@@ -24,13 +55,10 @@ function module:CreateWindow(Name: string, Animation: boolean | nil, AnimationIn
 			end)
 		end
 	end]]
-	
+
 	-- Variables --
 	local Tabs = 0
-	
-	local Players = game:GetService('Players')
-	local Player = Players.LocalPlayer
-	
+
 	-- Gui --
 	local Window = Instance.new("ScreenGui")
 	local MainFrame = Instance.new("Frame")
@@ -48,8 +76,9 @@ function module:CreateWindow(Name: string, Animation: boolean | nil, AnimationIn
 	local Close = Instance.new("TextButton")
 	local Minimize = Instance.new("TextButton")
 	local TabsHolder = Instance.new("Frame")
-
-	Window.Parent = game:GetService("CoreGui")
+	
+	Window.Parent = GuiSettings.WindowParent
+	Window.Name = Name
 	Window.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 	Window.ResetOnSpawn = false
 	Window.IgnoreGuiInset = true
@@ -120,7 +149,6 @@ function module:CreateWindow(Name: string, Animation: boolean | nil, AnimationIn
 	Username.Text = Player.Name
 	Username.TextColor3 = Color3.new(1, 1, 1)
 	Username.TextSize = 20
-	Username.TextScaled = true
 	Username.TextXAlignment = Enum.TextXAlignment.Left
 
 	TabButtonHolder.Name = "Holder"
@@ -184,7 +212,7 @@ function module:CreateWindow(Name: string, Animation: boolean | nil, AnimationIn
 	Minimize.TextWrapped = true
 	local MinimizeFunction
 	MinimizeFunction = Minimize.MouseButton1Click:Connect(function()
-		
+
 	end)
 
 	TabsHolder.Name = "TabsHolder"
@@ -254,7 +282,7 @@ end)
 runService.Heartbeat:Connect(Update)
 	]]
 	DragScript.Enabled = true
-	
+
 	-- Functions --
 	local Functions = {}
 	Functions.__index = Functions
@@ -263,7 +291,7 @@ runService.Heartbeat:Connect(Update)
 		if #string.split(Icon, "://") < 2 then if Debug then warn("Icon link for tab "..Name.." is not supported. Only supported rbxassetid.") end
 		elseif #string.split(Icon, "://") > 2 then if string.split(Icon, "://")[1] ~= "rbxassetid" then if Debug then warn("Icon link for tab "..Name.." is not supported. Only supported rbxassetid.") end end end
 		Tabs += 1
-		
+
 		-- Tab UI --
 		local TabFrame = Instance.new("Frame")
 		local UICorner = Instance.new("UICorner")
@@ -288,7 +316,7 @@ runService.Heartbeat:Connect(Update)
 		UIPadding.Parent = TabFrame
 		UIPadding.PaddingLeft = UDim.new(0, 6)
 		UIPadding.PaddingTop = UDim.new(0, 10)
-		
+
 		-- Tab Button --
 		local TabButton = Instance.new("Frame")
 		local Clickable = Instance.new("TextButton")
@@ -366,7 +394,7 @@ script.Parent.MouseButton1Click:Connect(function()
 end)
 		]]
 		OnTabButtonClick.Enabled = true
-		
+
 		-- Tab Functions --
 		local TabFunctions = {}
 		TabFunctions.__index = TabFunctions
@@ -415,9 +443,9 @@ end)
 			local UICorner = Instance.new("UICorner")
 			local UIStroke = Instance.new("UIStroke")
 			local Button_2 = Instance.new("TextButton")
-			
+
 			if typeof(callback) ~= "function" and callback ~= nil then if Debug then warn("Unsupported type of callback.") callback = nil end end
-			
+
 			Button.Name = "Button"
 			Button.Parent = TabFrame
 			Button.BackgroundColor3 = Color3.new(0.117647, 0.117647, 0.117647)
@@ -435,7 +463,7 @@ end)
 			UIStroke.LineJoinMode = Enum.LineJoinMode.Round
 			UIStroke.Thickness = 2
 			UIStroke.Transparency = 0.5
-			
+
 			Button_2.Name = "Button"
 			Button_2.Parent = Button
 			Button_2.Text = text
@@ -452,7 +480,7 @@ end)
 			Button_2.TextStrokeColor3 = Color3.new(1, 1, 1)
 			Button_2.TextWrapped = true
 			Button_2.TextXAlignment = Enum.TextXAlignment.Left
-			
+
 			if not callback then
 				Button_2.MouseButton1Click:Connect(function()
 					print("Click!")
@@ -480,7 +508,7 @@ end)
 
 			UICorner.Parent = Checkbox
 			UICorner.CornerRadius = UDim.new(0, 15)
-			
+
 			UIStroke.Parent = Checkbox
 			UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual
 			UIStroke.Color = Color3.fromRGB(255,255,255)
@@ -529,7 +557,7 @@ end)
 			ImageLabel.Size = UDim2.new(0.0900000036, 0, 0.899999976, 0)
 			ImageLabel.Image = ""
 			ImageLabel.ImageTransparency = 1
-			
+
 			local on = default
 			if default == true then ImageLabel.Image = CheckboxOn end
 
