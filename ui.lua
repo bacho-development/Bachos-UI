@@ -61,7 +61,7 @@ function module:CreateWindow(Name: string, Animation: boolean | nil, AnimationIn
 	MainFrame.BorderColor3 = Color3.new(0, 0, 0)
 	MainFrame.BorderSizePixel = 0
 	MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
-	MainFrame.Size = UDim2.new(0.400000006, 0, 0.400000006, 0)
+	MainFrame.Size = UDim2.new(0.4, 0, 0.5, 0)
 
 	UICorner.Parent = MainFrame
 	UICorner.CornerRadius = UDim.new(0, 15)
@@ -269,6 +269,7 @@ runService.Heartbeat:Connect(Update)
 		local UIListLayout = Instance.new("UIListLayout")
 		local UIPadding = Instance.new("UIPadding")
 
+		if Tabs ~= 1 then TabFrame.Visible = false end
 		TabFrame.Name = tostring(Tabs)
 		TabFrame.Parent = TabsHolder
 		TabFrame.BackgroundColor3 = Color3.new(0.117647, 0.117647, 0.117647)
@@ -356,7 +357,7 @@ script.Parent.MouseButton1Click:Connect(function()
 			v:FindFirstChild("Title").TextColor3 = unselectedcolor
 		end
 	end
-	local tab = tabs:FindFirstChild(index)
+	local tab = tabs:FindFirstChild(tostring(index))
 	if tab:IsA("Frame") then
 		tab.Visible = true
 		script.Parent.Title.TextColor3 = selectedcolor
@@ -371,6 +372,7 @@ end)
 		function TabFunctions:CreateLabel(text: string)
 			local Label = Instance.new("Frame")
 			local UICorner = Instance.new("UICorner")
+			local UIStroke = Instance.new("UIStroke")
 			local Text = Instance.new("TextLabel")
 
 			Label.Name = "Label"
@@ -383,6 +385,13 @@ end)
 
 			UICorner.Parent = Label
 			UICorner.CornerRadius = UDim.new(0, 15)
+
+			UIStroke.Parent = Label
+			UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual
+			UIStroke.Color = Color3.fromRGB(255,255,255)
+			UIStroke.LineJoinMode = Enum.LineJoinMode.Round
+			UIStroke.Thickness = 2
+			UIStroke.Transparency = 0.5
 
 			Text.Name = "Text"
 			Text.Parent = Label
@@ -403,6 +412,7 @@ end)
 		function TabFunctions:CreateButton(text: string, callback: any | nil)
 			local Button = Instance.new("Frame")
 			local UICorner = Instance.new("UICorner")
+			local UIStroke = Instance.new("UIStroke")
 			local Button_2 = Instance.new("TextButton")
 			
 			if typeof(callback) ~= "function" and callback ~= nil then if Debug then warn("Unsupported type of callback.") callback = nil end end
@@ -418,6 +428,13 @@ end)
 			UICorner.Parent = Button
 			UICorner.CornerRadius = UDim.new(0, 15)
 
+			UIStroke.Parent = Button
+			UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual
+			UIStroke.Color = Color3.fromRGB(255,255,255)
+			UIStroke.LineJoinMode = Enum.LineJoinMode.Round
+			UIStroke.Thickness = 2
+			UIStroke.Transparency = 0.5
+			
 			Button_2.Name = "Button"
 			Button_2.Parent = Button
 			Button_2.Text = text
@@ -447,6 +464,7 @@ end)
 			if typeof(callback) ~= "function" and callback ~= nil then if Debug then warn("Unsupported type of callback.") callback = nil end end
 			local Checkbox = Instance.new("Frame")
 			local UICorner = Instance.new("UICorner")
+			local UIStroke = Instance.new("UIStroke")
 			local Button = Instance.new("TextButton")
 			local Text = Instance.new("TextLabel")
 			local ImageLabel = Instance.new("ImageLabel")
@@ -461,6 +479,13 @@ end)
 
 			UICorner.Parent = Checkbox
 			UICorner.CornerRadius = UDim.new(0, 15)
+			
+			UIStroke.Parent = Checkbox
+			UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual
+			UIStroke.Color = Color3.fromRGB(255,255,255)
+			UIStroke.LineJoinMode = Enum.LineJoinMode.Round
+			UIStroke.Thickness = 2
+			UIStroke.Transparency = 0.5
 
 			Button.Name = "Button"
 			Button.Parent = Checkbox
