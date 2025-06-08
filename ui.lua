@@ -159,9 +159,9 @@ function module:CreateWindow(Name: string, Animation: boolean | nil, AnimationIn
 	Close.TextWrapped = true
 	local CloseFunction
 	CloseFunction = Close.MouseButton1Click:Connect(function()
-		MainFrame:TweenSizeAndPosition(UDim2.fromScale(0,0), UDim2.fromScale(0.001,0.5), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 1.5)
+		MainFrame:TweenSizeAndPosition(UDim2.fromScale(0.001,MainFrame.Size.Scale.Y), MainFrame.Position, Enum.EasingDirection.In, Enum.EasingStyle.Linear, 1.5)
 		task.wait(1.5)
-		MainFrame:TweenSizeAndPosition(UDim2.fromScale(0,0), UDim2.fromScale(0,0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 1.5)
+		MainFrame:TweenSizeAndPosition(UDim2.fromScale(0,0), MainFrame.Position, Enum.EasingDirection.In, Enum.EasingStyle.Linear, 1.5)
 		task.wait(1.5)
 		CloseFunction:Disconnect()
 		Window:Destroy()
@@ -256,6 +256,7 @@ runService.Heartbeat:Connect(Update)
 	
 	-- Functions --
 	local Functions = {}
+	Functions.__index = Functions
 	function Functions:CreateTab(Name: string, Icon: string | number)
 		if typeof(Icon) == "number" then Icon = "rbxassetid://"..tostring(Icon) end
 		if #string.split(Icon, "://") < 2 then if Debug then warn("Icon link for tab "..Name.." is not supported. Only supported rbxassetid.") end
@@ -366,6 +367,7 @@ end)
 		
 		-- Tab Functions --
 		local TabFunctions = {}
+		TabFunctions.__index = TabFunctions
 		function TabFunctions:CreateLabel(text: string)
 			local Label = Instance.new("Frame")
 			local UICorner = Instance.new("UICorner")
