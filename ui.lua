@@ -14,7 +14,7 @@ local GuiSettings = {
 	["WindowParent"] = Player:FindFirstChildWhichIsA('PlayerGui');
 }
 local UnknownParameters, Handled = "", 0
-for i, v in pairs(_G) do
+for i, v in getgenv() do
 	print(i,v)
 	Handled += 1
 	if GuiSettings[i] then
