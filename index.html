@@ -1,30 +1,343 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Bachos UI</title>
-    <link href="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" rel="icon">
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Табы с боковой панелью</title>
+    <!-- Подключаем Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  </head>
-  <body>
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#intro">Initialization</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#usage">Usage</a>
-      </li>
-    </ul>
-    
-    <div class="tab-content">
-      <div id="intro" class="tab-pane active">
-        <h3>eee</h3>
-        <p>aavvv</p>
-      </div>
-      <div id="usage" class="tab-pane fade">
-        <h3>bbn</h3>
-        <p>Тddf</p>
-      </div>
+    <style>
+        :root {
+            --sidebar-width: 250px;
+            --transition-speed: 0.3s;
+        }
+        
+        /* Стили для активной кнопки таба */
+        .nav-link.active,
+        .dropdown-item.active {
+            background-color: #d1ecff !important;
+            color: #dc3545 !important;
+            font-weight: 500;
+        }
+        
+        /* Стили для боковой панели */
+        #sidebar {
+            width: var(--sidebar-width);
+            transition: all var(--transition-speed) ease;
+            z-index: 1000;
+        }
+        
+        /* Стили для кнопки сворачивания */
+        #toggleSidebar {
+            position: absolute;
+            right: -40px;
+            top: 10px;
+            z-index: 1001;
+        }
+        
+        /* Стили для контента при скрытой боковой панели */
+        .sidebar-collapsed #sidebar {
+            transform: translateX(calc(var(--sidebar-width) * -1));
+        }
+        
+        .sidebar-collapsed #content {
+            margin-left: 0 !important;
+        }
+        
+        /* Стили для кода */
+        .code-block {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .code-block pre {
+            margin: 0;
+        }
+        
+        /* Кастомные стили для табов */
+        .tab-btn-next {
+            margin-top: 20px;
+        }
+        
+        .dropdown-toggle::after {
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+        
+        .tab-content {
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 0 5px 5px 5px;
+            min-height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Боковая панель -->
+            <div id="sidebar" class="col-md-3 col-lg-2 p-3 bg-light">
+                <button id="toggleSidebar" class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+                
+                <ul class="nav flex-column">
+                    <!-- Обычные табы -->
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#home">
+                            Главная
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#settings">
+                            Настройки
+                        </a>
+                    </li>
+                    
+                    <!-- Дропдаун табы -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+                            Документация
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" data-bs-toggle="tab" href="#usage">Использование</a></li>
+                            <li><a class="dropdown-item" data-bs-toggle="tab" href="#examples">Примеры</a></li>
+                            <li><a class="dropdown-item" data-bs-toggle="tab" href="#errors">Ошибки</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#about">
+                            О проекте
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Основной контент -->
+            <div id="content" class="col-md-9 col-lg-10 ms-sm-auto">
+                <div class="tab-content">
+                    <!-- Главная вкладка -->
+                    <div class="tab-pane fade show active" id="home">
+                        <h2>Главная страница</h2>
+                        <p>Добро пожаловать в наше приложение! Используйте панель слева для навигации.</p>
+                        
+                        <!-- Пример Lua кода -->
+                        <div class="code-block mt-4">
+                            <pre><code>-- Пример Lua кода
+function factorial(n)
+    if n == 0 then
+        return 1
+    else
+        return n * factorial(n - 1)
+    end
+end
+
+print("Факториал 5:", factorial(5))</code></pre>
+                        </div>
+                        
+                        <!-- Кнопка перехода к следующему табу -->
+                        <button class="btn btn-primary tab-btn-next" data-next-tab="settings">
+                            Перейти к настройкам →
+                        </button>
+                    </div>
+                    
+                    <!-- Вкладка настроек -->
+                    <div class="tab-pane fade" id="settings">
+                        <h2>Настройки приложения</h2>
+                        <p>Здесь вы можете настроить параметры системы:</p>
+                        
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="option1">
+                            <label class="form-check-label" for="option1">
+                                Включить автоматическое обновление
+                            </label>
+                        </div>
+                        
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="option2">
+                            <label class="form-check-label" for="option2">
+                                Отправлять статистику использования
+                            </label>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="themeSelect" class="form-label">Цветовая схема</label>
+                            <select class="form-select" id="themeSelect">
+                                <option>Светлая</option>
+                                <option>Тёмная</option>
+                                <option>Синяя</option>
+                            </select>
+                        </div>
+                        
+                        <button class="btn btn-primary tab-btn-next" data-next-tab="usage">
+                            Перейти к документации →
+                        </button>
+                    </div>
+                    
+                    <!-- Вкладки документации -->
+                    <div class="tab-pane fade" id="usage">
+                        <h2>Использование приложения</h2>
+                        <p>Подробные инструкции по работе с системой:</p>
+                        
+                        <ol>
+                            <li>Запустите приложение</li>
+                            <li>Выберите нужный режим работы</li>
+                            <li>Настройте параметры</li>
+                            <li>Сохраните результат</li>
+                        </ol>
+                        
+                        <div class="alert alert-info">
+                            <strong>Совет:</strong> Используйте горячие клавиши для быстрого доступа к функциям
+                        </div>
+                        
+                        <button class="btn btn-primary tab-btn-next" data-next-tab="examples">
+                            Смотреть примеры →
+                        </button>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="examples">
+                        <h2>Примеры использования</h2>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Пример 1: Базовая настройка</h4>
+                                <p>Простая конфигурация для начинающих</p>
+                                <pre class="bg-light p-2">config = {
+    mode = "basic",
+    theme = "light"
+}</pre>
+                            </div>
+                            <div class="col-md-6">
+                                <h4>Пример 2: Продвинутые настройки</h4>
+                                <p>Конфигурация для опытных пользователей</p>
+                                <pre class="bg-light p-2">config = {
+    mode = "advanced",
+    theme = "dark",
+    plugins = ["stats", "export"],
+    auto_update = true
+}</pre>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary tab-btn-next" data-next-tab="errors">
+                            Распространённые ошибки →
+                        </button>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="errors">
+                        <h2>Частые ошибки</h2>
+                        
+                        <div class="accordion" id="errorsAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#error1">
+                                        Ошибка #001: Недостаточно памяти
+                                    </button>
+                                </h2>
+                                <div id="error1" class="accordion-collapse collapse show" data-bs-parent="#errorsAccordion">
+                                    <div class="accordion-body">
+                                        <p><strong>Решение:</strong> Закройте другие приложения или увеличьте объем выделяемой памяти</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#error2">
+                                        Ошибка #101: Неверные параметры
+                                    </button>
+                                </h2>
+                                <div id="error2" class="accordion-collapse collapse" data-bs-parent="#errorsAccordion">
+                                    <div class="accordion-body">
+                                        <p><strong>Решение:</strong> Проверьте корректность введенных данных в настройках</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary tab-btn-next" data-next-tab="about">
+                            О проекте →
+                        </button>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="about">
+                        <h2>О нашем проекте</h2>
+                        <p>Это демонстрационное приложение создано для показа возможностей табов в Bootstrap</p>
+                        
+                        <h4 class="mt-4">Основные возможности:</h4>
+                        <ul>
+                            <li>Переключение между вкладками</li>
+                            <li>Сворачиваемая боковая панель</li>
+                            <li>Вложенные табы в дропдаунах</li>
+                            <li>Навигация внутри контента</li>
+                            <li>Подсветка кода</li>
+                        </ul>
+                        
+                        <div class="card mt-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Технологии</h5>
+                                <p class="card-text">
+                                    Bootstrap 5, JavaScript, HTML5, CSS3
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </body>
+
+    <!-- Подключаем Bootstrap JS и зависимости -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Сворачивание/разворачивание боковой панели
+        document.getElementById('toggleSidebar').addEventListener('click', function() {
+            document.body.classList.toggle('sidebar-collapsed');
+            
+            // Меняем иконку кнопки
+            const icon = this.querySelector('i');
+            if (document.body.classList.contains('sidebar-collapsed')) {
+                icon.classList.remove('bi-chevron-left');
+                icon.classList.add('bi-chevron-right');
+            } else {
+                icon.classList.remove('bi-chevron-right');
+                icon.classList.add('bi-chevron-left');
+            }
+        });
+        
+        // Переключение на следующий таб по кнопке
+        document.querySelectorAll('.tab-btn-next').forEach(button => {
+            button.addEventListener('click', function() {
+                const nextTabId = this.getAttribute('data-next-tab');
+                const nextTab = document.querySelector(`a[href="#${nextTabId}"]`);
+                
+                if (nextTab) {
+                    // Если таб внутри дропдауна, активируем родительский элемент
+                    if (nextTab.classList.contains('dropdown-item')) {
+                        const dropdown = nextTab.closest('.dropdown');
+                        const dropdownToggle = dropdown.querySelector('.dropdown-toggle');
+                        new bootstrap.Tab(dropdownToggle).show();
+                    }
+                    
+                    new bootstrap.Tab(nextTab).show();
+                }
+            });
+        });
+        
+        // Инициализация иконок Bootstrap
+        const loadIcons = () => {
+            const iconCSS = document.createElement('link');
+            iconCSS.rel = 'stylesheet';
+            iconCSS.href = 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css';
+            document.head.appendChild(iconCSS);
+        };
+        
+        // Запуск после загрузки страницы
+        window.addEventListener('DOMContentLoaded', loadIcons);
+    </script>
+</body>
 </html>
