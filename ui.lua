@@ -159,7 +159,7 @@ function module:CreateWindow(Name: string, Animation: boolean | nil, AnimationIn
 	Close.TextWrapped = true
 	local CloseFunction
 	CloseFunction = Close.MouseButton1Click:Connect(function()
-		MainFrame:TweenSizeAndPosition(UDim2.fromScale(0.001,MainFrame.Size.Scale.Y), MainFrame.Position, Enum.EasingDirection.In, Enum.EasingStyle.Linear, 1.5)
+		MainFrame:TweenSizeAndPosition(UDim2.fromScale(0.001,MainFrame.Size.Y.Scale), MainFrame.Position, Enum.EasingDirection.In, Enum.EasingStyle.Linear, 1.5)
 		task.wait(1.5)
 		MainFrame:TweenSizeAndPosition(UDim2.fromScale(0,0), MainFrame.Position, Enum.EasingDirection.In, Enum.EasingStyle.Linear, 1.5)
 		task.wait(1.5)
