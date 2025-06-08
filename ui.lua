@@ -120,6 +120,7 @@ function module:CreateWindow(Name: string, Animation: boolean | nil, AnimationIn
 	Username.Text = Player.Name
 	Username.TextColor3 = Color3.new(1, 1, 1)
 	Username.TextSize = 20
+	Username.TextScaled = true
 	Username.TextXAlignment = Enum.TextXAlignment.Left
 
 	TabButtonHolder.Name = "Holder"
