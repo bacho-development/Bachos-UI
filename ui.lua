@@ -301,7 +301,7 @@ runService.Heartbeat:Connect(Update)
 		local UIPadding = Instance.new("UIPadding")
 
 		if Tabs ~= 1 then TabFrame.Visible = false end
-		TabFrame.Name = tostring(Tabs)
+		TabFrame.Name = "Tab"..tostring(Tabs)
 		TabFrame.Parent = TabsHolder
 		TabFrame.BackgroundColor3 = Color3.new(0.117647, 0.117647, 0.117647)
 		TabFrame.BorderColor3 = Color3.new(0, 0, 0)
@@ -378,6 +378,7 @@ local tabs = script.Parent.Parent.Parent.Parent.Parent.TabsHolder
 
 local unselectedcolor, selectedcolor = Color3.fromRGB(181, 181, 181), Color3.fromRGB(255,255,255)
 script.Parent.MouseButton1Click:Connect(function()
+	print("e")
 	for _, v in pairs(tabs:GetChildren()) do
 		if v:IsA("Frame") then
 			v.Visible =false
@@ -388,7 +389,8 @@ script.Parent.MouseButton1Click:Connect(function()
 			v:FindFirstChild("Title").TextColor3 = unselectedcolor
 		end
 	end
-	local tab = tabs:FindFirstChild(tostring(index))
+	local tab = tabs:FindFirstChild("Tab"..tostring(index))
+	print(tab)
 	if tab:IsA("Frame") then
 		tab.Visible = true
 		script.Parent.Title.TextColor3 = selectedcolor
