@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bachos UI</title>
+  </head>
+  <body>
+    <h1 id="bachos-ui-library">Bachos UI Library</h1>
+<h2 id="an-easy-to-use-user-interface-library-for-roblox-">An easy-to-use User Interface Library for Roblox!</h2>
+<h4 id="this-ui-library-was-made-for-zen-hub-but-you-can-use-it-too-">This UI Library was made for Zen Hub, but you can use it too!</h4>
+<p>Interface based on <strong><a href="https://github.com/jensonhirst/Orion/blob/main/Documentation.md">Orion Library</a></strong> that is <em>no longer supported</em>.</p>
+<hr>
+<h1 id="initialization">Initialization</h1>
+<p>To load the library, use the code below:</p>
+<pre><code class="lang-lua"><span class="hljs-function"><span class="hljs-title">getgenv</span><span class="hljs-params">()</span></span><span class="hljs-selector-class">.WindowParent</span> = game<span class="hljs-selector-class">.CoreGui</span>
+local Bacho = loadstring(game:HttpGet(<span class="hljs-string">"https://raw.githubusercontent.com/bacho-development/bachos-ui/refs/heads/main/ui.lua"</span>)()
+</code></pre>
+<p>Or if you want to test it in Roblox Studio:</p>
+<pre><code class="lang-lua">-- without the getgenv() --
+local Bacho = loadstring(<span class="hljs-name">game</span><span class="hljs-symbol">:HttpGet</span>(<span class="hljs-string">"https://raw.githubusercontent.com/bacho-development/bachos-ui/refs/heads/main/ui.lua"</span>)()
+</code></pre>
+<blockquote>
+<h3 id="note-">Note:</h3>
+<p>The script for Roblox Studio should not be used in a normal game. The getgenv() part was made for testing purposes and will be removed one day or will change it&#39;s default values.</p>
+</blockquote>
+<h1 id="window-the-core-of-the-ui">Window - the core of the UI</h1>
+<p>To create a window, you need to do this:</p>
+<pre><code class="lang-lua"><span class="hljs-comment">-- bacho</span>
+<span class="hljs-keyword">local</span> Window = Bacho:CreateWindow(WindowName)
+</code></pre>
+<h1 id="tabs">Tabs</h1>
+<p>To create a tab, you need to do this:</p>
+<pre><code class="lang-lua"><span class="hljs-comment">-- bacho, window</span>
+<span class="hljs-keyword">local</span> Tab = Window:CreateTab(TabName, Icon)
+
+<span class="hljs-comment">--[[</span>
+TabName = The Tab's <span class="hljs-built_in">name</span>. Tab's frame <span class="hljs-built_in">name</span> <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">the</span> same <span class="hljs-keyword">as</span> <span class="hljs-keyword">the</span> TabName, <span class="hljs-keyword">it</span> only assigns <span class="hljs-keyword">the</span> <span class="hljs-built_in">text</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">the</span> TabButton.
+- Type: <span class="hljs-built_in">string</span>
+
+Icon = The Tab's icon. Same <span class="hljs-keyword">as</span> TabName, <span class="hljs-keyword">it</span> only assigns <span class="hljs-keyword">the</span> image next <span class="hljs-keyword">to</span> <span class="hljs-keyword">the</span> TabButton.
+- Type: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">number</span> | nil
+- Should be existing roblox decal <span class="hljs-keyword">or</span> <span class="hljs-keyword">it</span> won't load
+]]
+</code></pre>
+<h1 id="tab-elements">Tab Elements</h1>
+<h2 id="sections">Sections</h2>
+<blockquote>
+<p><strong>UI doesn&#39;t support sections, currently.</strong></p>
+<p>Will be available by calling Tab&#39;s CreateSection method</p>
+<p><strong>Also,</strong> sections will have elements of the tab (excluding sections, of course)</p>
+</blockquote>
+<h2 id="labels">Labels</h2>
+<p>To create a label, you need to do this:</p>
+<pre><code class="lang-lua"><span class="hljs-comment">--bacho, window, tab</span>
+<span class="hljs-keyword">local</span> Label = Tab:CreateLabel(Text)
+
+<span class="hljs-comment">--[[
+Text = The label's text.
+- Type: string
+]]</span>
+</code></pre>
+<h2 id="buttons">Buttons</h2>
+<p>To create a button, you need to do this:</p>
+<pre><code class="lang-lua"><span class="hljs-comment">--bacho, window, tab</span>
+local Button = Tab:CreateButton(<span class="hljs-literal">Text</span>, Callback)
+
+<span class="hljs-comment">--[[</span>
+<span class="hljs-literal">Text</span> = The button<span class="hljs-symbol">'s</span> <span class="hljs-literal">text</span>.
+- <span class="hljs-keyword">Type</span>: <span class="hljs-built_in">string</span>
+
+Callback = What should be called <span class="hljs-keyword">when</span> the button <span class="hljs-keyword">is</span> pressed.
+- <span class="hljs-keyword">Type</span>: <span class="hljs-keyword">function</span> | nil
+- Receives from the <span class="hljs-keyword">library</span>: ()
+- <span class="hljs-keyword">Default</span>: <span class="hljs-keyword">function</span>()
+   print(<span class="hljs-string">"Click!"</span>)
+<span class="hljs-keyword">end</span>
+]]
+</code></pre>
+<h2 id="toggle-checkbox">Toggle | Checkbox</h2>
+<p>To create a checkbox, you need to do this:</p>
+<pre><code class="lang-lua"><span class="hljs-comment">--bacho, window, tab</span>
+local Checkbox = Tab:CreateCheckbox(<span class="hljs-literal">Text</span>, <span class="hljs-keyword">Default</span>, Callback)
+
+<span class="hljs-comment">--[[</span>
+<span class="hljs-literal">Text</span> = The checkbox <span class="hljs-literal">text</span>.
+- <span class="hljs-keyword">Type</span>: <span class="hljs-built_in">string</span>
+
+<span class="hljs-keyword">Default</span> = The <span class="hljs-keyword">default</span> checkbox state.
+- <span class="hljs-keyword">Type</span>: <span class="hljs-built_in">boolean</span> | nil
+- <span class="hljs-keyword">Default</span>: <span class="hljs-literal">false</span>
+
+Callback = What should be called <span class="hljs-keyword">when</span> the checkbox was pressed.
+- <span class="hljs-keyword">Type</span>: <span class="hljs-keyword">function</span> | nil
+- Receives from the <span class="hljs-keyword">library</span>: <span class="hljs-built_in">boolean</span> (checkbox state)
+- <span class="hljs-keyword">Default</span>: <span class="hljs-keyword">function</span>()
+   print(<span class="hljs-string">"Current state: &lt;checkbox state&gt;"</span>)
+<span class="hljs-keyword">end</span>
+]]
+</code></pre>
+<h2 id="colorpicker-dropdown-textbox-slider-etc-">Colorpicker, Dropdown, Textbox, Slider, etc.</h2>
+<blockquote>
+<p><strong>The library does not support these, currently.</strong></p>
+<p>The support will come soon as more updates will come out.</p>
+</blockquote>
+<h1 id="contact-me-">Contact me:</h1>
+<h3 id="-my-discord-server-https-discord-gg-apeuzvnmus-"><a href="https://discord.gg/aPeuZvnmus">My Discord server</a></h3>
+  <script src='https://cdn.jsdelivr.net/npm/@widgetbot/crate@3' async defer>
+    new Crate({
+        server: '1381356275425607690',
+        channel: '1381357114949111949'
+    })
+  </script>
+  </body>
+</html>
