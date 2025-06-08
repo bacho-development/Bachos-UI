@@ -370,6 +370,7 @@ function module:CreateWindow(Name: string, Animation: boolean | nil, AnimationIn
 		Title.TextXAlignment = Enum.TextXAlignment.Left
 
 		local OnTabButtonClick = Clickable.MouseButton1Click:Connect(function()
+			print(TabsHolder)
 			for _, v in pairs(TabsHolder:GetChildren()) do
 				if v:IsA("Frame") then
 					v.Visible =false
