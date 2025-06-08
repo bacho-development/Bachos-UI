@@ -15,6 +15,7 @@ local GuiSettings = {
 }
 local UnknownParameters, Handled = "", 0
 for i, v in pairs(_G) do
+	print(i,v)
 	Handled += 1
 	if GuiSettings[i] then
 		GuiSettings[i] = v
