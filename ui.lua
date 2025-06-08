@@ -14,12 +14,11 @@ local GuiSettings = {
 	["WindowParent"] = Player:FindFirstChildWhichIsA('PlayerGui');
 }
 local UnknownParameters, Handled = "", 0
-for i, v in getgenv() do
-	print(i,v)
+for i, v in pairs(getgenv()) do
 	Handled += 1
 	if GuiSettings[i] then
 		GuiSettings[i] = v
-	else
+	--[[else
 		if UnknownParameters ~= "" then
 			if Handled ~= #_G then
 				UnknownParameters = UnknownParameters..tostring(i).." = "..tostring(v).." | "
@@ -28,12 +27,13 @@ for i, v in getgenv() do
 			end
 		else
 			UnknownParameters = tostring(i).." = "..tostring(v).." | "
-		end
+		end]]
 	end
 end
-if UnknownParameters ~= "" then
+--[[if UnknownParameters ~= "" then
 	warn("The script got unknown parameters.\n\n"..UnknownParameters)
-end
+end]]
+-- idk what to do with ts bc getgenv returns all functions
 
 -- Create window --
 function module:CreateWindow(Name: string, Animation: boolean | nil, AnimationInfo: {any} | nil, SaveConfig: boolean | nil, ConfigInfo: {any} | nil, Debug: boolean | nil)
@@ -150,6 +150,7 @@ function module:CreateWindow(Name: string, Animation: boolean | nil, AnimationIn
 	Username.Text = Player.Name
 	Username.TextColor3 = Color3.new(1, 1, 1)
 	Username.TextSize = 20
+	Username.TextScaled = true
 	Username.TextXAlignment = Enum.TextXAlignment.Left
 
 	TabButtonHolder.Name = "Holder"
