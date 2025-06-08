@@ -4,6 +4,7 @@ module.__index = module
 -- Variables -- 
 local CheckboxOn = "rbxassetid://104734605967860"
 local ConfigurationExtension = ".blcfg"
+local TabUnselected, TabSelected = Color3.fromRGB(181, 181, 181), Color3.fromRGB(255,255,255)
 
 -- Services --
 local Players = game:GetService('Players')
@@ -227,63 +228,61 @@ function module:CreateWindow(Name: string, Animation: boolean | nil, AnimationIn
 	TabsHolder.Size = UDim2.new(0.720243573, 0, 0.851382732, 0)
 
 	-- Scripts
-	local DragScript = Instance.new('LocalScript', MainFrame)
-	DragScript.Source = [[
-local UserInputService = game:GetService("UserInputService")
-local runService = (game:GetService("RunService"));
-
-local gui = script.Parent
-
-local dragging
-local dragInput
-local dragStart
-local startPos
-
-function Lerp(a, b, m)
-	return a + (b - a) * m
-end;
-
-local lastMousePos
-local lastGoalPos
-local DRAG_SPEED = (8);
-function Update(dt)
-	if not (startPos) then return end;
-	if not (dragging) and (lastGoalPos) then
-		gui.Position = UDim2.new(startPos.X.Scale, Lerp(gui.Position.X.Offset, lastGoalPos.X.Offset, dt * DRAG_SPEED), startPos.Y.Scale, Lerp(gui.Position.Y.Offset, lastGoalPos.Y.Offset, dt * DRAG_SPEED))
-		return 
-	end;
-
-	local delta = (lastMousePos - UserInputService:GetMouseLocation())
-	local xGoal = (startPos.X.Offset - delta.X);
-	local yGoal = (startPos.Y.Offset - delta.Y);
-	lastGoalPos = UDim2.new(startPos.X.Scale, xGoal, startPos.Y.Scale, yGoal)
-	gui.Position = UDim2.new(startPos.X.Scale, Lerp(gui.Position.X.Offset, xGoal, dt * DRAG_SPEED), startPos.Y.Scale, Lerp(gui.Position.Y.Offset, yGoal, dt * DRAG_SPEED))
-end;
-
-gui.InputBegan:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-		dragging = true
-		dragStart = input.Position
-		startPos = gui.Position
-		lastMousePos = UserInputService:GetMouseLocation()
-
-		input.Changed:Connect(function()
-			if input.UserInputState == Enum.UserInputState.End then
-				dragging = false
+	task.spawn(function()
+		local UserInputService = game:GetService("UserInputService")
+		local runService = (game:GetService("RunService"));
+		
+		local gui = MainFrame
+		
+		local dragging
+		local dragInput
+		local dragStart
+		local startPos
+		
+		function Lerp(a, b, m)
+			return a + (b - a) * m
+		end;
+		
+		local lastMousePos
+		local lastGoalPos
+		local DRAG_SPEED = (8);
+		function Update(dt)
+			if not (startPos) then return end;
+			if not (dragging) and (lastGoalPos) then
+				gui.Position = UDim2.new(startPos.X.Scale, Lerp(gui.Position.X.Offset, lastGoalPos.X.Offset, dt * DRAG_SPEED), startPos.Y.Scale, Lerp(gui.Position.Y.Offset, lastGoalPos.Y.Offset, dt * DRAG_SPEED))
+				return 
+			end;
+		
+			local delta = (lastMousePos - UserInputService:GetMouseLocation())
+			local xGoal = (startPos.X.Offset - delta.X);
+			local yGoal = (startPos.Y.Offset - delta.Y);
+			lastGoalPos = UDim2.new(startPos.X.Scale, xGoal, startPos.Y.Scale, yGoal)
+			gui.Position = UDim2.new(startPos.X.Scale, Lerp(gui.Position.X.Offset, xGoal, dt * DRAG_SPEED), startPos.Y.Scale, Lerp(gui.Position.Y.Offset, yGoal, dt * DRAG_SPEED))
+		end;
+		
+		gui.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				dragging = true
+				dragStart = input.Position
+				startPos = gui.Position
+				lastMousePos = UserInputService:GetMouseLocation()
+		
+				input.Changed:Connect(function()
+					if input.UserInputState == Enum.UserInputState.End then
+						dragging = false
+					end
+				end)
 			end
 		end)
-	end
-end)
-
-gui.InputChanged:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-		dragInput = input
-	end
-end)
-
-runService.Heartbeat:Connect(Update)
-	]]
-	DragScript.Enabled = true
+		
+		gui.InputChanged:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+				dragInput = input
+			end
+		end)
+		
+		runService.Heartbeat:Connect(Update)
+	end)
 
 	-- Functions --
 	local Functions = {}
@@ -370,34 +369,20 @@ runService.Heartbeat:Connect(Update)
 		Title.TextWrapped = true
 		Title.TextXAlignment = Enum.TextXAlignment.Left
 
-		local OnTabButtonClick = Instance.new('LocalScript', Clickable)
-		OnTabButtonClick.Source = [[
-local index = ]]..tostring(Tabs)..[[
-
-local tabs = script.Parent.Parent.Parent.Parent.Parent.TabsHolder
-
-local unselectedcolor, selectedcolor = Color3.fromRGB(181, 181, 181), Color3.fromRGB(255,255,255)
-script.Parent.MouseButton1Click:Connect(function()
-	print("e")
-	for _, v in pairs(tabs:GetChildren()) do
-		if v:IsA("Frame") then
-			v.Visible =false
-		end
-	end
-	for _,v in pairs(script.Parent.Parent:GetChildren()) do
-		if v.Name == "Clickable" and v:IsA("TextButton") then
-			v:FindFirstChild("Title").TextColor3 = unselectedcolor
-		end
-	end
-	local tab = tabs:FindFirstChild("Tab"..tostring(index))
-	print(tab)
-	if tab:IsA("Frame") then
-		tab.Visible = true
-		script.Parent.Title.TextColor3 = selectedcolor
-	end
-end)
-		]]
-		OnTabButtonClick.Enabled = true
+		local OnTabButtonClick = Clickable.MouseButton1Click:Connect(function()
+			for _, v in pairs(tabs:GetChildren()) do
+				if v:IsA("Frame") then
+					v.Visible =false
+				end
+			end
+			for _,v in pairs(script.Parent.Parent:GetChildren()) do
+				if v.Name == "Clickable" and v:IsA("TextButton") then
+					v:FindFirstChild("Title").TextColor3 = TabUnselected
+				end
+			end
+			TabFrame.Visible = true
+			Title.TextColor3 = TabSelected
+		end)
 
 		-- Tab Functions --
 		local TabFunctions = {}
