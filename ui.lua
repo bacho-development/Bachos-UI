@@ -520,6 +520,7 @@ end)
 			end
 		end
 		setmetatable(TabFunctions, Functions)
+		return TabFunctions
 	end
 	setmetatable(Functions, module)
 	return Functions
