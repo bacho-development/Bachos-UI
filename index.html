@@ -2,34 +2,23 @@
 <html>
   <head>
     <title>Bachos UI</title>
+    <script src="https://cdn.jsdelivr.net/gh/MarketingPipeline/Markdown-Tag/markdown-tag.js"></script> 
+    <style src="https://raw.githubusercontent.com/bacho-development/bachos-ui/refs/heads/main/web/discord-widget-style.css>
   </head>
   <body>
-    <div id="readme-content"></div>
-
-<script>
-  const repo = 'bacho-development/bachos-ui/';
-  const branch = 'refs/heads/main';
-
-  
-  fetch(`https://raw.githubusercontent.com/${repo}/${branch}/README.md`)
-    .then(response => response.text())
-    .then(markdown => {
-      const html = marked.parse(markdown, {
-        gfm: true,     
-        breaks: true  
-      });
-      const cleanHtml = DOMPurify.sanitize(html);
-      document.getElementById('readme-content').innerHTML = cleanHtml;
-    });
-    </script>
+    <did>
+      <github-md id="readme-content">
+        
+      </github-md>
+    </div>
+    <script>
+      const repo = 'bacho-development/bachos-ui/';
+      const branch = 'refs/heads/main';
     
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.5/purify.min.js"></script>
-    <script src='https://cdn.jsdelivr.net/npm/@widgetbot/crate@3' async defer>
-      new Crate({
-          server: '1381356275425607690',
-          channel: '1381357114949111949'
-      })
+      fetch(`https://raw.githubusercontent.com/${repo}/${branch}/README.md`).then(response => document.getElementById('readme-content').innerHTML = response.text())
     </script>
+      
+    <div class="discord-invite-widget"></div>
+    <script src="https://raw.githubusercontent.com/bacho-development/bachos-ui/refs/heads/main/web/discord-widget.js"></script>
   </body>
 </html>
