@@ -15,7 +15,7 @@
       const repo = 'bacho-development/bachos-ui/';
       const branch = 'refs/heads/main';
     
-      fetch(`https://raw.githubusercontent.com/${repo}/${branch}/README.md`).then(response => document.getElementById('readme-content').innerHTML = response.text())
+      fetch(`https://raw.githubusercontent.com/${repo}/${branch}/README.md`).then(response => {document.getElementById('readme-content').innerHTML = response.text();});
     </script>
       
     <div class="discord-invite-widget"></div>
