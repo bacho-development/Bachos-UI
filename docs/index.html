@@ -3,7 +3,79 @@
   <head>
     <title>Bachos UI</title>
     <script src="https://cdn.jsdelivr.net/gh/MarketingPipeline/Markdown-Tag/markdown-tag.js"></script> 
-    <style src="https://raw.githubusercontent.com/bacho-development/bachos-ui/refs/heads/main/web/discord-widget-style.css"></style>
+    <style>
+      .discord-invite {
+        font-family: 'Whitney', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        max-width: 432px;
+        border-radius: 4px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .discord-invite.dark {
+        background: #2f3136;
+        color: #dcddde;
+      }
+      
+      .discord-invite.light {
+        background: #f2f3f5;
+        color: #2e3338;
+      }
+      
+      .server-info {
+        display: flex;
+        padding: 16px;
+        gap: 12px;
+        align-items: center;
+      }
+      
+      .server-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 15px;
+        object-fit: cover;
+      }
+      
+      .server-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      
+      .server-name {
+        font-weight: 600;
+        font-size: 16px;
+      }
+      
+      .member-count {
+        font-size: 14px;
+        opacity: 0.8;
+      }
+      
+      .join-button {
+        background: #5865F2;
+        color: white !important;
+        text-align: center;
+        padding: 10px 16px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 14px;
+        border: none;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      
+      .join-button:hover {
+        background: #4752C4;
+      }
+        
+      .discord-invite.error {
+        padding: 16px;
+        text-align: center;
+        border: 1px solid #ed4245;
+      }
+    </style>
   </head>
   <body>
     <div>
