@@ -1,24 +1,298 @@
-<!DOCTYPE html>
 <html>
   <head>
     <title>Bachos UI</title>
-    <script src="https://cdn.jsdelivr.net/gh/MarketingPipeline/Markdown-Tag/markdown-tag.js"></script> 
-    <style src="https://raw.githubusercontent.com/bacho-development/bachos-ui/refs/heads/main/web/discord-widget-style.css">
+    <style>
+      .discord-invite {
+        font-family: 'Whitney', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        max-width: 432px;
+        border-radius: 4px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .discord-invite.dark {
+        background: #2f3136;
+        color: #dcddde;
+      }
+      
+      .discord-invite.light {
+        background: #f2f3f5;
+        color: #2e3338;
+      }
+      
+      .server-info {
+        display: flex;
+        padding: 16px;
+        gap: 12px;
+        align-items: center;
+      }
+      
+      .server-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 15px;
+        object-fit: cover;
+      }
+      
+      .server-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      
+      .server-name {
+        font-weight: 600;
+        font-size: 16px;
+      }
+      
+      .member-count {
+        font-size: 14px;
+        opacity: 0.8;
+      }
+      
+      .join-button {
+        background: #5865F2;
+        color: white !important;
+        text-align: center;
+        padding: 10px 16px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 14px;
+        border: none;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      
+      .join-button:hover {
+        background: #4752C4;
+      }
+        
+      .discord-invite.error {
+        padding: 16px;
+        text-align: center;
+        border: 1px solid #ed4245;
+      }
+    </style>
+    <script>
+      function initWidget(inviteCode, serverId, iconHash, widgetName, imgType) {
+        var config = {
+          inviteCode: inviteCode,
+          theme: "dark",
+          icon: `https://cdn.discordapp.com/icons/${serverId}/${iconHash}${imgType}?size=256`,
+          proxy: "" // use proxy if crash
+          
+        };
+        
+        function getIcon() {
+          var iconUrl = '';
+          fetch(`${config.proxy}https://discord.com/api/invites/${config.inviteCode}?with_counts=true`) 
+            .then(response => {
+                if (response.ok) {return response.json()};
+              })
+            .then(data => {
+              if (data){
+                const guild = data.guild;
+                if (!guild.icon) throw new Error('No icon');
+                iconUrl = `https://cdn.discordapp.com/icons/${config.serverId}/${guild.icon}${imgType}?size=256`;
+              }
+             })
+            .catch(error => {
+              console.error(error.stack)
+          });
+          return iconUrl
+        }
+        
+        fetch(`https://discord.com/api/v10/invites/${config.inviteCode}?with_counts=true`)
+          .then(response => response.json())
+          .then(data => {
+            console.log(widgetName);
+            const widget = document.getElementById(`${widgetName}`);
+            
+            widget.innerHTML = `
+              <div id="${widgetName}" class="discord-invite ${config.theme}">
+                <div class="server-info">
+                  <img 
+                    src='${getIcon() || config.icon}'
+                    alt="Server Icon" 
+                    class="server-icon"
+                  >
+                  <div class="server-meta">
+                    <span class="server-name">${data.profile.name}</span>
+                    <span class="member-count"><svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 64 64" enable-background="new 0 0 64 64"><path d="m32 2c-16.568 0-30 13.432-30 30s13.432 30 30 30 30-13.432 30-30-13.432-30-30-30" fill="#757575"/></svg> ${data.profile.member_count} members  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="8" height="8" viewBox="0 0 36 36" aria-hidden="true" role="img" class="iconify iconify--twemoji" preserveAspectRatio="xMidYMid meet"><circle fill="#78B159" cx="18" cy="18" r="18"/></svg>  ${data.profile.online_count} members active</span>
+                  </div>
+                </div>
+                <a 
+                  href="${`https://discord.gg/${config.inviteCode}`}" 
+                  target="_blank" 
+                  class="join-button"
+                >
+                  Join
+                </a>
+              </div>
+            `;
+          })
+          .catch(error => {
+            console.error("Widget loading error:", error);
+            document.querySelector(`.${widgetName}`).innerHTML = `
+              <div class="discord-invite error">
+                Could not load the discord widget
+                <a href="https://discord.gg/${config.inviteCode}" target="_blank" class="join-button">
+                  Try to join
+                </a>
+              </div>
+            `;
+          });
+      };
+    </script>
   </head>
   <body>
-    <did>
+    <div style="place-self: center;">
       <github-md id="readme-content">
-        
+# Bachos UI Library
+<a href="https://github.com/bacho-development/bachos-ui"><img title="Visitors" src="https://visitor-badge.laobi.icu/badge?page_id=bacho-development.bachos-ui"/></a> 
+
+## An easy-to-use User Interface Library for Roblox!
+
+#### This UI Library was made for Zen Hub, but you can use it too!
+Interface based on **[Orion Library](https://github.com/jensonhirst/Orion/blob/main/Documentation.md)** that is *no longer supported*.
+
+> ### Zen Hub server:
+>
+> <div id="zen-hub-widget"></div>
+> <script>initWidget("aS7hMESVFB", "1189265387217490051", "a_d21c49868a7545872e18696c32ac346e", "zen-hub-widget", ".gif")</script>
+
+_________
+# Initialization 
+
+To load the library, use the code below:
+```lua
+getgenv().WindowParent = game.CoreGui
+local Bacho = loadstring(game:HttpGet("https://raw.githubusercontent.com/bacho-development/bachos-ui/refs/heads/main/ui.lua")()
+```
+
+Or if you want to test it in Roblox Studio:
+```lua
+-- without the getgenv() --
+local Bacho = loadstring(game:HttpGet("https://raw.githubusercontent.com/bacho-development/bachos-ui/refs/heads/main/ui.lua")()
+```
+
+> ### Note:
+>
+> The script for Roblox Studio should not be used in a normal game. The getgenv() part was made for testing purposes and will be removed one day or will change it's default values.
+
+# Window - the core of the UI
+To create a window, you need to do this:
+
+```lua
+-- bacho
+local Window = Bacho:CreateWindow(WindowName)
+```
+
+# Tabs
+To create a tab, you need to do this:
+
+```lua
+-- bacho, window
+local Tab = Window:CreateTab(TabName, Icon)
+
+--[[
+TabName = The Tab's name. Tab's frame name is not the same as the TabName, it only assigns the text in the TabButton.
+- Type: string
+
+Icon = The Tab's icon. Same as TabName, it only assigns the image next to the TabButton.
+- Type: string | number | nil
+- Should be existing roblox decal or it won't load
+]]
+```
+
+# Tab Elements
+## Sections
+> **UI doesn't support sections, currently.**
+> 
+> Will be available by calling Tab's CreateSection method
+>
+> **Also,** sections will have elements of the tab (excluding sections, of course)
+
+
+## Labels
+To create a label, you need to do this:
+
+```lua
+--bacho, window, tab
+local Label = Tab:CreateLabel(Text)
+
+--[[
+Text = The label's text.
+- Type: string
+]]
+```
+
+
+## Buttons
+To create a button, you need to do this:
+
+```lua
+--bacho, window, tab
+local Button = Tab:CreateButton(Text, Callback)
+
+--[[
+Text = The button's text.
+- Type: string
+
+Callback = What should be called when the button is pressed.
+- Type: function | nil
+- Receives from the library: ()
+- Default: function()
+   print("Click!")
+end
+]]
+```
+
+
+## Toggle | Checkbox
+To create a checkbox, you need to do this:
+
+```lua
+--bacho, window, tab
+local Checkbox = Tab:CreateCheckbox(Text, Default, Callback)
+
+--[[
+Text = The checkbox text.
+- Type: string
+
+Default = The default checkbox state.
+- Type: boolean | nil
+- Default: false
+
+Callback = What should be called when the checkbox was pressed.
+- Type: function | nil
+- Receives from the library: boolean (checkbox state)
+- Default: function()
+   print("Current state: (checkbox state)")
+end
+]]
+```
+
+
+## Colorpicker, Dropdown, Textbox, Slider, etc.
+
+> **The library does not support these, currently.**
+
+
+> # Note:
+>
+> The support for non-existent elements will come soon as more updates will come out.
+
+
+# Contact me:
+### [My Discord server](https://discord.gg/aPeuZvnmus)
+<div id="my-server-widget"></div>
+<script>initWidget("xwY8NZFHts", "1381623495624097906", "fad314302d8d9d45e10990a120cec3f4", "my-server-widget", ".png")</script>
       </github-md>
     </div>
-    <script>
-      const repo = 'bacho-development/bachos-ui/';
-      const branch = 'refs/heads/main';
-    
-      fetch(`https://raw.githubusercontent.com/${repo}/${branch}/README.md`).then(response => document.getElementById('readme-content').innerHTML = response.text())
-    </script>
       
-    <div class="discord-invite-widget"></div>
-    <script src="https://raw.githubusercontent.com/bacho-development/bachos-ui/refs/heads/main/web/discord-widget.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/MarketingPipeline/Markdown-Tag/markdown-tag-GitHub.js"></script>
   </body>
 </html>
