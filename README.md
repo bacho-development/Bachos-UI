@@ -1,14 +1,13 @@
-<p>
-   
-   # Bachos UI Library
-</p>
-
+# Bachos UI Library
 ## An easy-to-use User Interface Library for Roblox!
 
 #### This UI Library was made for Zen Hub, but you can use it too!
 Interface based on **[Orion Library](https://github.com/jensonhirst/Orion/blob/main/Documentation.md)** that is *no longer supported*.
 
-#### || <a href="https://bacho-development.github.io/bachos-ui">Documentation website</a> ||
+#### || <a href="https://bacho-development.github.io/bachos-ui">Documentation website (website being updated when there is an update in the changelog)</a> ||
+#### || <a href="https://github.com/bacho-development/bachos-ui/blob/main/other/README.md">Changelog</a> ||
+
+**Tested on: <a href="https://discord.gg/bunnilol">bunni.lol (Visual)</a>**
 _________
 # Initialization 
 
