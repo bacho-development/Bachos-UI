@@ -1,8 +1,6 @@
 <p>
    
    # Bachos UI Library
-   
-   <img title="Visitors" src="https://visitor-badge.laobi.icu/badge?page_id=bacho-development.bacho-development"/>
 </p>
 
 ## An easy-to-use User Interface Library for Roblox!
@@ -10,6 +8,7 @@
 #### This UI Library was made for Zen Hub, but you can use it too!
 Interface based on **[Orion Library](https://github.com/jensonhirst/Orion/blob/main/Documentation.md)** that is *no longer supported*.
 
+#### || <a href="https://bacho-development.github.io/bachos-ui">Documentation website</a> ||
 _________
 # Initialization 
 
